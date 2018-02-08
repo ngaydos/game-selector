@@ -12,6 +12,7 @@ def insert_person(name):
     conn.close()
 
 def insert_rating(game, person, rating):
+    #not currently functional
     #insert a rating into the narrow rating table
     conn = psycopg2.connect('dbname = boardgames user = postgres')
     cur = conn.cursor()
@@ -29,3 +30,12 @@ def insert_ratings(game, people, ratings):
         cur.execute(("INSERT INTO narrow_ratings (game_id, person_id, rating) VALUES ((SELECT id FROM games WHERE name = '{}'), (SELECT id FROM people_index WHERE name = '{}'), '{}'); ").format(game, people[value], ratings[value]))
         conn.commit()
     conn.close()
+
+def all_ratings():
+    '''Returns an object containing all ratings list ordered by user_id
+    '''
+    conn = psycopg2.connect('dbname = boardgames user = postgres')
+    cur = conn.cursor()
+    cur.execute('SELECT games.name AS game, people_index.name as Person, narrow_ratings.rating FROM games RIGHT JOIN narrow_ratings ON games.id = narrow_ratings.game_id LEFT JOIN people_index ON people_index.id = narrow_ratings.person_id');
+    ratings = cur.fetchall()
+    return ratings

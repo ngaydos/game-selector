@@ -31,6 +31,14 @@ def insert_ratings(game, people, ratings):
         conn.commit()
     conn.close()
 
+def update_rating(game, person, rating):
+    conn = psycopg2.connect('dbname = boardgames user = postgres')
+    cur = conn.cursor()
+    cur.execute(('''UPDATE narrow_ratings SET rating = '{}' WHERE game_id = (SELECT id FROM games WHERE name = '{}') 
+        AND person_id = (SELECT id FROM people_index WHERE name = '{}'); ''').format(rating, game, person))
+    conn.commit()
+    conn.close()
+
 def all_ratings():
     '''Returns an object containing all ratings list ordered by user_id
     '''

@@ -32,6 +32,10 @@ def insert_ratings(game, people, ratings):
     conn.close()
 
 def update_rating(game, person, rating):
+    '''updates a created rating
+    inputs = string, string, float
+    output = None
+    '''
     conn = psycopg2.connect('dbname = boardgames user = postgres')
     cur = conn.cursor()
     cur.execute(('''UPDATE narrow_ratings SET rating = '{}' WHERE game_id = (SELECT id FROM games WHERE name = '{}') 

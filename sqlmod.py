@@ -45,6 +45,8 @@ def update_rating(game, person, rating):
 
 def all_ratings():
     '''Returns an object containing all ratings list ordered by user_id
+    inputs = None
+    outputs = table of person, ratings
     '''
     conn = psycopg2.connect('dbname = boardgames user = postgres')
     cur = conn.cursor()

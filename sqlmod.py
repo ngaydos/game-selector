@@ -21,6 +21,10 @@ def insert_rating(game, person, rating):
     conn.close()
 
 def insert_ratings(game, people, ratings):
+    '''inserts a rating into the SQL database for each person listed
+    inputs: string, list, list
+    outputs = None
+    '''
     conn = psycopg2.connect('dbname = boardgames user = postgres')
     for value in range(len(people)):
         cur = conn.cursor()

@@ -57,3 +57,15 @@ def all_ratings():
     cur.execute('SELECT games.name AS game, people_index.name as Person, narrow_ratings.rating FROM games RIGHT JOIN narrow_ratings ON games.id = narrow_ratings.game_id LEFT JOIN people_index ON people_index.id = narrow_ratings.person_id');
     ratings = cur.fetchall()
     return ratings
+
+def update_durations(games, lengths):
+    '''A tool for updating the lengths of multiple board games at once.
+    inputs = list of game names, list of durations
+    outputs: None
+    '''
+    conn = psycopg2.connect('dbname = boardgames user = postgres')
+    for index, name in enumerate(games):
+        cur = conn.cursor()
+        cur.execute(("UPDATE games SET duration = {} WHERE name = '{}'").format(lengths[index], name))
+        conn.commit()
+    conn.close()
